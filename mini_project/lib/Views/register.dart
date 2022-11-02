@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mini_project/botnav.dart';
-import 'package:mini_project/field.dart';
-import 'package:mini_project/login.dart';
-import 'package:mini_project/passfield.dart';
+import 'package:mini_project/Widgets/botnav.dart';
+import 'package:mini_project/Widgets/field.dart';
+import 'package:mini_project/Views/login.dart';
+import 'package:mini_project/Widgets/passfield.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});

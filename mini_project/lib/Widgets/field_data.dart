@@ -9,7 +9,10 @@ class FieldData extends StatelessWidget {
   const FieldData({
     required this.icon,
     required this.label,
-    Key? key, required this.controller, this.validator, this.keyboardtype,
+    Key? key,
+    required this.controller,
+    this.validator,
+    this.keyboardtype,
   }) : super(key: key);
 
   @override
@@ -20,6 +23,7 @@ class FieldData extends StatelessWidget {
       child: TextFormField(
         validator: validator,
         controller: controller,
+        keyboardType: keyboardtype,
         decoration: InputDecoration(
             filled: true,
             fillColor: Colors.grey.shade100,
@@ -30,8 +34,8 @@ class FieldData extends StatelessWidget {
               color: Colors.blue,
             ),
             border: OutlineInputBorder(),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue))),
+            enabledBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.blue))),
       ),
     );
   }

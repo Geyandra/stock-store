@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "900774657966",
+    "project_id": "stock-shop-a4fea",
+    "storage_bucket": "stock-shop-a4fea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900774657966:android:547ca230e02d1d0901523f",
+        "android_client_info": {
+          "package_name": "com.example.mini_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900774657966-02a1gpk9urnr75cjqma765vldimuu943.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAbBs05hsvZyvp4GZj8KmCZCAdGekUfMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900774657966-02a1gpk9urnr75cjqma765vldimuu943.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

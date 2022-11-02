@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mini_project/botnav.dart';
-import 'package:mini_project/create.dart';
-import 'package:mini_project/details.dart';
-import 'package:mini_project/homepage.dart';
-import 'package:mini_project/login.dart';
-import 'package:mini_project/profiles.dart';
-import 'package:mini_project/register.dart';
-import 'package:mini_project/selected_data.dart';
+import 'package:mini_project/Widgets/botnav.dart';
+import 'package:mini_project/Views/create.dart';
+import 'package:mini_project/Views/details.dart';
+import 'package:mini_project/Views/homepage.dart';
+import 'package:mini_project/Views/login.dart';
+import 'package:mini_project/Views/profiles.dart';
+import 'package:mini_project/Views/register.dart';
+import 'package:mini_project/Views/selected_data.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.immersiveSticky,
   );
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

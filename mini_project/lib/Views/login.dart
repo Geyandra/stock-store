@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mini_project/botnav.dart';
-import 'package:mini_project/field.dart';
-import 'package:mini_project/passfield.dart';
-import 'package:mini_project/register.dart';
+import 'package:mini_project/Widgets/botnav.dart';
+import 'package:mini_project/Widgets/field.dart';
+import 'package:mini_project/Widgets/passfield.dart';
+import 'package:mini_project/Views/register.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});

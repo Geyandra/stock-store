@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mini_project/field_data.dart';
+import 'package:intl/intl.dart';
+import 'package:mini_project/Models/add_data.dart';
+import 'package:mini_project/Widgets/field_data.dart';
 
 class AddProduct extends StatefulWidget {
-   AddProduct({super.key});
+  AddProduct({super.key});
   static const nameRoute = 'Add';
 
   @override
@@ -21,6 +24,7 @@ class _AddProductState extends State<AddProduct> {
 
   final jualcontrol = TextEditingController();
 
+  String? selectedvalue = "PCS";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +58,28 @@ class _AddProductState extends State<AddProduct> {
               label: "Jumlah",
               controller: jumlahcontrol,
             ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: DropdownButtonFormField(
+                  style: TextStyle(color: Colors.blue),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue))),
+                  value: selectedvalue,
+                  items: ["PCS", "PAK"]
+                      .map((String item) => DropdownMenuItem(
+                            child: Text(item),
+                            value: item,
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedvalue = value;
+                    });
+                  }),
+            ),
             FieldData(
               icon: Icons.money_rounded,
               label: "Harga Beli",
@@ -67,15 +93,24 @@ class _AddProductState extends State<AddProduct> {
             Container(
               width: 230,
               height: 50,
-              margin: EdgeInsets.only(top: 90),
+              margin: EdgeInsets.only(top: 50),
               child: ElevatedButton(
                   onPressed: () {
+                    final ProductData = Products(
+                        Barcode: codecontrol.text,
+                        Nama_Barang: namacontrol.text,
+                        Jumlah_Barang: int.parse(jualcontrol.text),
+                        Tipe: selectedvalue.toString(),
+                        Harga_Beli: int.parse(belicontrol.text),
+                        Harga_Jual: int.parse(jualcontrol.text),
+                        Tanggal_Masuk: DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                        Tanggal_Edit: "");
+                    createData(ProductData);
                     Navigator.of(context).pop();
                   },
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: Text("Tambah Data")),
-            )
+            ),
           ],
         ),
       ),
@@ -83,4 +118,9 @@ class _AddProductState extends State<AddProduct> {
   }
 }
 
-
+Future createData(Products data) async {
+  final docData = FirebaseFirestore.instance.collection("Data_Products").doc();
+  data.Id = docData.id;
+  final json = data.toJson();
+  docData.set(json);
+}

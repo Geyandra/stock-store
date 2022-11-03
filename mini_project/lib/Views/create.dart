@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:mini_project/Models/add_data.dart';
+import 'package:mini_project/Models/model_products.dart';
 import 'package:mini_project/Widgets/field_data.dart';
 
 class AddProduct extends StatefulWidget {
@@ -47,6 +47,14 @@ class _AddProductState extends State<AddProduct> {
               icon: Icons.qr_code_scanner,
               label: "Bacode/Code",
               controller: codecontrol,
+              suffixicon: IconButton(
+                  onPressed: () {
+                    
+                  },
+                  icon: Icon(
+                    Icons.image,
+                    color: Colors.blue.shade400,
+                  )),
             ),
             FieldData(
               icon: Icons.shopify,
@@ -99,11 +107,12 @@ class _AddProductState extends State<AddProduct> {
                     final ProductData = Products(
                         Barcode: codecontrol.text,
                         Nama_Barang: namacontrol.text,
-                        Jumlah_Barang: int.parse(jualcontrol.text),
+                        Jumlah_Barang: int.parse(jumlahcontrol.text),
                         Tipe: selectedvalue.toString(),
                         Harga_Beli: int.parse(belicontrol.text),
                         Harga_Jual: int.parse(jualcontrol.text),
-                        Tanggal_Masuk: DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                        Tanggal_Masuk:
+                            DateFormat('dd/MM/yyyy').format(DateTime.now()),
                         Tanggal_Edit: "");
                     createData(ProductData);
                     Navigator.of(context).pop();

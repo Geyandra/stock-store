@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 class FieldData extends StatelessWidget {
   final String label;
   final IconData icon;
-  final TextEditingController controller;
+  final Widget? suffixicon;
+  final TextEditingController? controller;
   final validator;
   final keyboardtype;
   const FieldData({
     required this.icon,
     required this.label,
     Key? key,
-    required this.controller,
+    this.controller,
     this.validator,
     this.keyboardtype,
+    this.suffixicon,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,8 @@ class FieldData extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardtype,
         decoration: InputDecoration(
+            suffixIcon: suffixicon,
+            suffixIconColor: Colors.blue,
             filled: true,
             fillColor: Colors.grey.shade100,
             label: Text(label),

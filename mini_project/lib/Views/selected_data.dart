@@ -22,7 +22,7 @@ class SelectedData extends StatelessWidget {
             title: Text("Nama Toko"),
             subtitle: Text("Tanggal Datang"),
             trailing: Icon(
-              Icons.done,
+              Icons.done_all,
               color: Colors.green,
             ),
           ),
@@ -40,7 +40,7 @@ class SelectedData extends StatelessWidget {
             title: Text("Nama Toko"),
             subtitle: Text("Tanggal Datang"),
             trailing: Icon(
-              Icons.list_alt,
+              Icons.highlight_remove,
               color: Colors.red.shade300,
             ),
           ),

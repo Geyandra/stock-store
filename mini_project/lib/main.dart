@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       BottomNavBar.nameRoute: (context) => BottomNavBar(),
       Homepage.nameRoute: (context) => Homepage(),
       AddProduct.nameRoute: (context) => AddProduct(),
-      DetailsProduct.nameRoute: (context) => DetailsProduct(data: null,),
+      DetailsProduct.nameRoute: (context) => DetailsProduct(data: null),
     });
   }
 }

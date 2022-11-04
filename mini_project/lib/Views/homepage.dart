@@ -15,6 +15,9 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final tokocontrol = TextEditingController();
+  final daerahcontrol = TextEditingController();
+  final perkiraancontrol = TextEditingController();
   var name;
   int? Columnindex;
   bool asc = false;
@@ -24,10 +27,6 @@ class _HomepageState extends State<Homepage> {
   String searchresult = '';
   bool searchNotEmpty = true;
   final nametable = ["Nama Barang", "Stock", "Satuan"];
-
-  final tokocontrol = TextEditingController();
-  final daerahcontrol = TextEditingController();
-  final perkiraancontrol = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -121,57 +120,63 @@ class _HomepageState extends State<Homepage> {
                 name = selectedProducts.map((e) => e.Nama_Barang).join(', ');
                 showDialog(
                   context: context,
-                  builder: (context) => Container(
-                    child: SimpleDialog(
-                      title: Text(
-                        "Data yang akan ditambahkan",
-                        textAlign: TextAlign.center,
-                      ),
-                      children: [
-                        FieldOrder(
-                          icon: Icons.store_mall_directory,
-                          hint: 'Nama Toko',
-                          controller: tokocontrol,
-                        ),
-                        FieldOrder(
-                          icon: Icons.location_on,
-                          hint: 'Daerah',
-                          controller: daerahcontrol,
-                        ),
-                        FieldOrder(
-                          icon: Icons.download_sharp,
-                          hint: 'Perkiraan Datang',
-                          controller: perkiraancontrol,
-                        ),
-                        SizedBox(
-                          height: 60,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            RGButtonDialog(
-                                text: "Tambah",
-                                color: Colors.green.shade300,
-                                pressed: () {
-                                  print(tokocontrol.text);
-                                  final tambahbarang = Orders(
-                                      Nama_Toko: tokocontrol.text,
-                                      Daerah: daerahcontrol.text,
-                                      Perkiraan_Datang: perkiraancontrol.text,
-                                      Pesanan: name);
-                                  createData(tambahbarang);
-                                  Navigator.of(context).pop();
-                                }),
-                            RGButtonDialog(
-                                text: "Batal",
-                                color: Colors.red.shade300,
-                                pressed: () {
-                                  Navigator.of(context).pop();
-                                }),
-                          ],
-                        )
-                      ],
+                  builder: (context) => SimpleDialog(
+                    title: Text(
+                      "Data yang akan ditambahkan",
+                      textAlign: TextAlign.center,
                     ),
+                    children: [
+                      FieldOrder(
+                        icon: Icons.store_mall_directory,
+                        hint: 'Nama Toko',
+                        controller: tokocontrol,
+                      ),
+                      FieldOrder(
+                        icon: Icons.location_on,
+                        hint: 'Daerah',
+                        controller: daerahcontrol,
+                      ),
+                      FieldOrder(
+                        icon: Icons.download_sharp,
+                        hint: 'Perkiraan Datang',
+                        controller: perkiraancontrol,
+                      ),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          RGButtonDialog(
+                              text: "Tambah",
+                              color: Colors.green.shade300,
+                              pressed: () {
+                                final tambahbarang = Orders(
+                                    Nama_Toko: tokocontrol.text,
+                                    Daerah: daerahcontrol.text,
+                                    Perkiraan_Datang: perkiraancontrol.text,
+                                    Pesanan: name);
+                                createData(tambahbarang);
+                                tokocontrol.text = '';
+                                daerahcontrol.text = '';
+                                perkiraancontrol.text = '';
+                                setState(() {
+                                  selectedProducts = [];
+                                });
+                                Navigator.of(context).pop();
+                              }),
+                          RGButtonDialog(
+                              text: "Batal",
+                              color: Colors.red.shade300,
+                              pressed: () {
+                                tokocontrol.text = '';
+                                daerahcontrol.text = '';
+                                perkiraancontrol.text = '';
+                                Navigator.of(context).pop();
+                              }),
+                        ],
+                      )
+                    ],
                   ),
                 );
               },

@@ -21,6 +21,8 @@ class FieldOrder extends StatelessWidget {
       margin: EdgeInsets.only(top: 5),
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: TextFormField(
+        controller: controller,
+        validator: validator,
         maxLines: 1,
         decoration: InputDecoration(
           fillColor: Colors.blue.shade100,

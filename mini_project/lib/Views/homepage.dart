@@ -16,8 +16,9 @@ class _HomepageState extends State<Homepage> {
   int? Columnindex;
   bool asc = false;
   List<Products> search = [];
+  List<Products> sort = [];
   String searchresult = '';
-  bool searchNotEmpty = false;
+  bool searchNotEmpty = true;
   final nametable = ["Nama Barang", "Stock", "Satuan"];
 
   @override
@@ -37,6 +38,10 @@ class _HomepageState extends State<Homepage> {
             return Text("Ada Kesalahan! ${snapshot.hasError}");
           } else if (snapshot.hasData) {
             List<Products> datas = snapshot.data!;
+            search = datas
+                .where((element) => element.Nama_Barang.toLowerCase()
+                    .contains(searchresult.toLowerCase()))
+                .toList();
             return Column(
               children: [
                 Container(
@@ -45,6 +50,7 @@ class _HomepageState extends State<Homepage> {
                   child: TextField(
                     onSubmitted: (value) {
                       setState(() {
+                        searchNotEmpty = true;
                         searchresult = value;
                         search = datas
                             .where((element) =>
@@ -72,98 +78,14 @@ class _HomepageState extends State<Homepage> {
                       sortColumnIndex: Columnindex,
                       sortAscending: asc,
                       columns: nametable
-                          .map((String column) => DataColumn(
-                                label: Text(column),
-                                onSort: (columnIndex, ascending) {
-                                  setState(() {
-                                    searchNotEmpty = true;
-                                    search = datas
-                                        .where((element) =>
-                                            element.Nama_Barang.toLowerCase()
-                                                .contains(
-                                                    searchresult.toLowerCase()))
-                                        .toList();
-                                    Columnindex = columnIndex;
-                                    asc = ascending;
-                                  });
-                                  if (columnIndex == 0) {
-                                    if (asc) {
-                                      search.sort(
-                                        (a, b) => a.Nama_Barang.compareTo(
-                                            b.Nama_Barang),
-                                      );
-                                      search.map((e) => print(e));
-                                    } else {
-                                      search.sort(
-                                        (a, b) => b.Nama_Barang.compareTo(
-                                            a.Nama_Barang),
-                                      );
-                                      search.map((e) => print(e.Nama_Barang));
-                                    }
-                                  } else if (columnIndex == 1) {
-                                    if (asc) {
-                                      search.sort(
-                                        (a, b) => a.Jumlah_Barang.compareTo(
-                                            b.Jumlah_Barang),
-                                      );
-                                    } else {
-                                      search.sort(
-                                        (a, b) => b.Jumlah_Barang.compareTo(
-                                            a.Jumlah_Barang),
-                                      );
-                                    }
-                                  }
-                                },
-                              ))
+                          .map((String column) => getColumn(column, datas))
                           .toList(),
                       rows: searchNotEmpty
                           ? search
-                              .map((data) => DataRow(
-                                      onLongPress: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailsProduct(
-                                                    data: data,
-                                                  )),
-                                        );
-                                      },
-                                      cells: [
-                                        DataCell(
-                                          Text(data.Nama_Barang),
-                                        ),
-                                        DataCell(
-                                          Text("${data.Jumlah_Barang}"),
-                                        ),
-                                        DataCell(
-                                          Text(data.Tipe),
-                                        ),
-                                      ]))
+                              .map((data) => getRowSearch(context, data))
                               .toList()
-                          : datas
-                              .map((data) => DataRow(
-                                      onLongPress: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailsProduct(
-                                                    data: data,
-                                                  )),
-                                        );
-                                      },
-                                      cells: [
-                                        DataCell(
-                                          Text(data.Nama_Barang),
-                                        ),
-                                        DataCell(
-                                          Text("${data.Jumlah_Barang}"),
-                                        ),
-                                        DataCell(
-                                          Text(data.Tipe),
-                                        ),
-                                      ]))
+                          : sort
+                              .map((data) => getRowSort(context, data))
                               .toList()),
                 ),
               ],
@@ -175,6 +97,92 @@ class _HomepageState extends State<Homepage> {
           }
         },
       )),
+    );
+  }
+
+  DataRow getRowSort(BuildContext context, Products data) {
+    return DataRow(
+        onLongPress: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailsProduct(
+                      data: data,
+                    )),
+          );
+        },
+        cells: [
+          DataCell(
+            Text(data.Nama_Barang),
+          ),
+          DataCell(
+            Text("${data.Jumlah_Barang}"),
+          ),
+          DataCell(
+            Text(data.Tipe),
+          ),
+        ]);
+  }
+
+  DataRow getRowSearch(BuildContext context, Products data) {
+    return DataRow(
+        onLongPress: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailsProduct(
+                      data: data,
+                    )),
+          );
+        },
+        cells: [
+          DataCell(
+            Text(data.Nama_Barang),
+          ),
+          DataCell(
+            Text("${data.Jumlah_Barang}"),
+          ),
+          DataCell(
+            Text(data.Tipe),
+          ),
+        ]);
+  }
+
+  DataColumn getColumn(String column, List<Products> datas) {
+    return DataColumn(
+      label: Text(column),
+      onSort: (columnIndex, ascending) {
+        setState(() {
+          sort = datas
+              .where((element) => element.Nama_Barang.toLowerCase()
+                  .contains(searchresult.toLowerCase()))
+              .toList();
+          searchNotEmpty = false;
+          Columnindex = columnIndex;
+          asc = ascending;
+        });
+        if (columnIndex == 0) {
+          if (asc) {
+            sort.sort(
+              (a, b) => a.Nama_Barang.compareTo(b.Nama_Barang),
+            );
+          } else {
+            sort.sort(
+              (a, b) => b.Nama_Barang.compareTo(a.Nama_Barang),
+            );
+          }
+        } else if (columnIndex == 1) {
+          if (asc) {
+            sort.sort(
+              (a, b) => a.Jumlah_Barang.compareTo(b.Jumlah_Barang),
+            );
+          } else {
+            sort.sort(
+              (a, b) => b.Jumlah_Barang.compareTo(a.Jumlah_Barang),
+            );
+          }
+        }
+      },
     );
   }
 }

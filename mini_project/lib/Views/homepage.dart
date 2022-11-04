@@ -17,7 +17,9 @@ class _HomepageState extends State<Homepage> {
   bool asc = false;
   List<Products> search = [];
   String searchresult = '';
+  bool searchNotEmpty = false;
   final nametable = ["Nama Barang", "Stock", "Satuan"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +43,13 @@ class _HomepageState extends State<Homepage> {
                   margin: EdgeInsets.only(bottom: 5, top: 10),
                   width: double.infinity,
                   child: TextField(
-                    onChanged: (value) {
+                    onSubmitted: (value) {
                       setState(() {
+                        searchresult = value;
                         search = datas
                             .where((element) =>
                                 element.Nama_Barang.toLowerCase()
-                                    .contains(value.toLowerCase()))
+                                    .contains(searchresult.toLowerCase()))
                             .toList();
                       });
                     },
@@ -73,6 +76,13 @@ class _HomepageState extends State<Homepage> {
                                 label: Text(column),
                                 onSort: (columnIndex, ascending) {
                                   setState(() {
+                                    searchNotEmpty = true;
+                                    search = datas
+                                        .where((element) =>
+                                            element.Nama_Barang.toLowerCase()
+                                                .contains(
+                                                    searchresult.toLowerCase()))
+                                        .toList();
                                     Columnindex = columnIndex;
                                     asc = ascending;
                                   });
@@ -82,11 +92,13 @@ class _HomepageState extends State<Homepage> {
                                         (a, b) => a.Nama_Barang.compareTo(
                                             b.Nama_Barang),
                                       );
+                                      search.map((e) => print(e));
                                     } else {
                                       search.sort(
                                         (a, b) => b.Nama_Barang.compareTo(
                                             a.Nama_Barang),
                                       );
+                                      search.map((e) => print(e.Nama_Barang));
                                     }
                                   } else if (columnIndex == 1) {
                                     if (asc) {
@@ -104,29 +116,55 @@ class _HomepageState extends State<Homepage> {
                                 },
                               ))
                           .toList(),
-                      rows: search
-                          .map((data) => DataRow(
-                                  onLongPress: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailsProduct(
-                                                data: data,
-                                              )),
-                                    );
-                                  },
-                                  cells: [
-                                    DataCell(
-                                      Text(data.Nama_Barang),
-                                    ),
-                                    DataCell(
-                                      Text("${data.Jumlah_Barang}"),
-                                    ),
-                                    DataCell(
-                                      Text(data.Tipe),
-                                    ),
-                                  ]))
-                          .toList()),
+                      rows: searchNotEmpty
+                          ? search
+                              .map((data) => DataRow(
+                                      onLongPress: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailsProduct(
+                                                    data: data,
+                                                  )),
+                                        );
+                                      },
+                                      cells: [
+                                        DataCell(
+                                          Text(data.Nama_Barang),
+                                        ),
+                                        DataCell(
+                                          Text("${data.Jumlah_Barang}"),
+                                        ),
+                                        DataCell(
+                                          Text(data.Tipe),
+                                        ),
+                                      ]))
+                              .toList()
+                          : datas
+                              .map((data) => DataRow(
+                                      onLongPress: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailsProduct(
+                                                    data: data,
+                                                  )),
+                                        );
+                                      },
+                                      cells: [
+                                        DataCell(
+                                          Text(data.Nama_Barang),
+                                        ),
+                                        DataCell(
+                                          Text("${data.Jumlah_Barang}"),
+                                        ),
+                                        DataCell(
+                                          Text(data.Tipe),
+                                        ),
+                                      ]))
+                              .toList()),
                 ),
               ],
             );

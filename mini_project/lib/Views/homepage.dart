@@ -78,24 +78,24 @@ class _HomepageState extends State<Homepage> {
                                   });
                                   if (columnIndex == 0) {
                                     if (asc) {
-                                      datas.sort(
+                                      search.sort(
                                         (a, b) => a.Nama_Barang.compareTo(
                                             b.Nama_Barang),
                                       );
                                     } else {
-                                      datas.sort(
+                                      search.sort(
                                         (a, b) => b.Nama_Barang.compareTo(
                                             a.Nama_Barang),
                                       );
                                     }
                                   } else if (columnIndex == 1) {
                                     if (asc) {
-                                      datas.sort(
+                                      search.sort(
                                         (a, b) => a.Jumlah_Barang.compareTo(
                                             b.Jumlah_Barang),
                                       );
                                     } else {
-                                      datas.sort(
+                                      search.sort(
                                         (a, b) => b.Jumlah_Barang.compareTo(
                                             a.Jumlah_Barang),
                                       );

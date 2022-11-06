@@ -25,15 +25,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: Register.nameRoute, routes: {
-      LoginPage.nameRoute: (context) => LoginPage(),
-      Register.nameRoute: (context) => Register(),
-      Profiles.nameRoute: (context) => Profiles(),
-      SelectedData.nameRoute: (context) => SelectedData(),
-      BottomNavBar.nameRoute: (context) => BottomNavBar(),
-      Homepage.nameRoute: (context) => Homepage(),
-      AddProduct.nameRoute: (context) => AddProduct(),
-      DetailsProduct.nameRoute: (context) => DetailsProduct(data: null),
-    });
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: Register.nameRoute,
+        routes: {
+          LoginPage.nameRoute: (context) => LoginPage(),
+          Register.nameRoute: (context) => Register(),
+          Profiles.nameRoute: (context) => Profiles(),
+          SelectedData.nameRoute: (context) => SelectedData(),
+          BottomNavBar.nameRoute: (context) => BottomNavBar(),
+          Homepage.nameRoute: (context) => Homepage(),
+          AddProduct.nameRoute: (context) => AddProduct(),
+          DetailsProduct.nameRoute: (context) => DetailsProduct(data: null),
+        });
   }
 }

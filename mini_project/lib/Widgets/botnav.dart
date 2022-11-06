@@ -35,8 +35,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         height: 70,
         backgroundColor: Colors.transparent,
-        animationDuration: Duration(milliseconds: 500),
-        animationCurve: Curves.easeInOutCirc,
+        animationDuration: Duration(milliseconds: 400),
+        animationCurve: Curves.linear,
       ),
       body: page[index],
     );

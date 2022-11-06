@@ -22,9 +22,9 @@ class _HomepageState extends State<Homepage> {
   int? Columnindex;
   bool asc = false;
   List<Products> search = [];
+  String searchresult = '';
   List<Products> sort = [];
   List<Products> selectedProducts = [];
-  String searchresult = '';
   bool searchNotEmpty = true;
   final nametable = ["Nama Barang", "Stock", "Satuan"];
 
@@ -33,7 +33,8 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(AddProduct.nameRoute);
+          Navigator.of(context)
+              .push(transition(AddProduct.nameRoute, AddProduct()));
         },
         child: Icon(Icons.add),
       ),
@@ -65,10 +66,10 @@ class _HomepageState extends State<Homepage> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 5, top: 10),
+          margin: EdgeInsets.all(5),
           width: double.infinity,
           child: TextField(
-            onSubmitted: (value) {
+            onChanged: (value) {
               setState(() {
                 searchNotEmpty = true;
                 searchresult = value;
@@ -197,13 +198,8 @@ class _HomepageState extends State<Homepage> {
           });
         },
         onLongPress: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailsProduct(
-                      data: data,
-                    )),
-          );
+          Navigator.of(context).push(
+              transition(DetailsProduct.nameRoute, DetailsProduct(data: data)));
         },
         cells: [
           DataCell(
@@ -225,13 +221,8 @@ class _HomepageState extends State<Homepage> {
           setState(() {});
         },
         onLongPress: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailsProduct(
-                      data: data,
-                    )),
-          );
+          Navigator.of(context).push(
+              transition(DetailsProduct.nameRoute, DetailsProduct(data: data)));
         },
         cells: [
           DataCell(
@@ -280,6 +271,26 @@ class _HomepageState extends State<Homepage> {
             );
           }
         }
+      },
+    );
+  }
+
+  PageRouteBuilder<dynamic> transition(routesname, page) {
+    return PageRouteBuilder(
+      settings: RouteSettings(name: routesname),
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionDuration: Duration(seconds: 1),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.fastLinearToSlowEaseIn;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
       },
     );
   }

@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Models/model_pesanan.dart';
 import 'package:mini_project/Views/details.dart';
+import 'package:mini_project/Widgets/confirm_button_dialog.dart';
 import 'package:mini_project/Widgets/field_order.dart';
+import 'package:mini_project/Widgets/note.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectedData extends StatefulWidget {
   const SelectedData({super.key});
@@ -12,8 +15,13 @@ class SelectedData extends StatefulWidget {
   State<SelectedData> createState() => _SelectedDataState();
 }
 
-List<String> isexpand = [];
+Future<List<String>> dataList() async {
+  SharedPreferences pre = await SharedPreferences.getInstance();
+  return pre.getStringList("checklist") ?? [];
+}
+
 List<String> undone = [];
+List<String> isexpand = [];
 List<String> deletebutton = [];
 List<Orders> search = [];
 String searchresult = '';
@@ -24,6 +32,12 @@ final perkiraancontrol = TextEditingController();
 final pesanancontrol = TextEditingController();
 
 class _SelectedDataState extends State<SelectedData> {
+  @override
+  void initState() {
+    dataList().then((value) => undone = value);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,6 +118,13 @@ class _SelectedDataState extends State<SelectedData> {
             return Text("Ada Kesalahan! ${snapshot.hasError}");
           } else if (snapshot.hasData) {
             final datas = snapshot.data!;
+            search = datas
+                .where((element) =>
+                    element.Nama_Toko.toLowerCase()
+                        .contains(searchresult.toLowerCase()) ||
+                    element.Daerah.toLowerCase()
+                        .contains(searchresult.toLowerCase()))
+                .toList();
             return Column(
               children: [
                 Container(
@@ -341,10 +362,16 @@ class _SelectedDataState extends State<SelectedData> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green.shade300),
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
-                              undone.add(datas[index].Id);
+                              if (undone.contains(datas[index].Id.toString())) {
+                              } else {
+                                undone.add(datas[index].Id);
+                              }
                             });
+                            SharedPreferences pre =
+                                await SharedPreferences.getInstance();
+                            pre.setStringList("checklist", undone);
                           },
                           child: Text(
                             "Diterima",
@@ -356,10 +383,13 @@ class _SelectedDataState extends State<SelectedData> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red.shade300),
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
                               undone.remove(datas[index].Id);
                             });
+                            SharedPreferences pre =
+                                await SharedPreferences.getInstance();
+                            pre.setStringList("checklist", undone);
                           },
                           child: Text(
                             "Batal",
@@ -372,26 +402,7 @@ class _SelectedDataState extends State<SelectedData> {
   }
 }
 
-class ListOrder extends StatelessWidget {
-  final String title;
-  final String trailing;
-  ListOrder({Key? key, required this.title, required this.trailing})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      color: Colors.blue.shade100,
-      child: ListTile(
-        title: Text(title),
-        trailing: Text(
-          trailing,
-          style: TextStyle(color: Color.fromARGB(228, 0, 0, 0)),
-        ),
-      ),
-    );
-  }
-}
+
 
 Stream<List<Orders>> readData() => FirebaseFirestore.instance
     .collection("Data_Pesanan")

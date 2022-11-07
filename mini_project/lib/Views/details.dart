@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Models/model_products.dart';
 import 'package:mini_project/Widgets/botnav.dart';
+import 'package:mini_project/Widgets/confirm_button.dart';
 import 'package:mini_project/Widgets/field_data.dart';
 import 'package:intl/intl.dart';
 
@@ -263,59 +264,8 @@ class _DetailsProductState extends State<DetailsProduct> {
   }
 }
 
-class RGButton extends StatelessWidget {
-  final String text;
-  final Color color;
-  final margin;
-  final VoidCallback pressed;
-  const RGButton({
-    required this.text,
-    required this.color,
-    this.margin,
-    required this.pressed,
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      height: 50,
-      margin: margin,
-      child: ElevatedButton(
-          onPressed: pressed,
-          style: ElevatedButton.styleFrom(backgroundColor: color),
-          child: Text(text)),
-    );
-  }
-}
 
-class RGButtonDialog extends StatelessWidget {
-  final String text;
-  final Color color;
-  final margin;
-  final VoidCallback pressed;
-  const RGButtonDialog({
-    required this.text,
-    required this.color,
-    this.margin,
-    required this.pressed,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 40,
-      margin: margin,
-      child: ElevatedButton(
-          onPressed: pressed,
-          style: ElevatedButton.styleFrom(backgroundColor: color),
-          child: Text(text)),
-    );
-  }
-}
 
 Future updateData(Products data) async {
   final docData =

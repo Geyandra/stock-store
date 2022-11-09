@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Models/model_pesanan.dart';
+import 'package:mini_project/Providers/orders_provider.dart';
 import 'package:mini_project/Views/details.dart';
 import 'package:mini_project/Widgets/confirm_button_dialog.dart';
 import 'package:mini_project/Widgets/field_order.dart';
 import 'package:mini_project/Widgets/note.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectedData extends StatefulWidget {
@@ -88,7 +90,7 @@ class _SelectedDataState extends State<SelectedData> {
                               Daerah: daerahcontrol.text,
                               Perkiraan_Datang: perkiraancontrol.text,
                               Pesanan: pesanancontrol.text);
-                          createData(tambahbarang);
+                          Provider.of<OrdersProvider>(context, listen: false).addProduct(tambahbarang);
                           tokocontrol.text = '';
                           daerahcontrol.text = '';
                           perkiraancontrol.text = '';
@@ -328,7 +330,7 @@ class _SelectedDataState extends State<SelectedData> {
                               children: [
                                 ElevatedButton(
                                     onPressed: () {
-                                      deleteData(datas[index].Id);
+                                      Provider.of<OrdersProvider>(context, listen: false).deleteProduct(datas[index].Id);
                                       Navigator.of(context).pop();
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -410,15 +412,3 @@ Stream<List<Orders>> readData() => FirebaseFirestore.instance
     .map((snapshots) =>
         snapshots.docs.map((doc) => Orders.fromJson(doc.data())).toList());
 
-Future deleteData(String data) async {
-  final docData =
-      FirebaseFirestore.instance.collection("Data_Pesanan").doc(data);
-  docData.delete();
-}
-
-Future createData(Orders data) async {
-  final docData = FirebaseFirestore.instance.collection("Data_Pesanan").doc();
-  data.Id = docData.id;
-  final json = data.toJson();
-  docData.set(json);
-}

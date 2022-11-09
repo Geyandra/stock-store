@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Models/model_pesanan.dart';
 import 'package:mini_project/Models/model_products.dart';
+import 'package:mini_project/Providers/orders_provider.dart';
 import 'package:mini_project/Views/create.dart';
 import 'package:mini_project/Views/details.dart';
 import 'package:mini_project/Widgets/confirm_button_dialog.dart';
 import 'package:mini_project/Widgets/field_order.dart';
+import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({super.key});
@@ -158,7 +160,7 @@ class _HomepageState extends State<Homepage> {
                                     Daerah: daerahcontrol.text,
                                     Perkiraan_Datang: perkiraancontrol.text,
                                     Pesanan: name);
-                                createData(tambahbarang);
+                                Provider.of<OrdersProvider>(context, listen: false).addProduct(tambahbarang);
                                 tokocontrol.text = '';
                                 daerahcontrol.text = '';
                                 perkiraancontrol.text = '';
@@ -303,9 +305,4 @@ Stream<List<Products>> readData() => FirebaseFirestore.instance
     .map((snapshots) =>
         snapshots.docs.map((doc) => Products.fromJson(doc.data())).toList());
 
-Future createData(Orders data) async {
-  final docData = FirebaseFirestore.instance.collection("Data_Pesanan").doc();
-  data.Id = docData.id;
-  final json = data.toJson();
-  docData.set(json);
-}
+

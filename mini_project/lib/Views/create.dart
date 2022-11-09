@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_project/Models/model_products.dart';
+import 'package:mini_project/Providers/products_provider.dart';
 import 'package:mini_project/Widgets/field_data.dart';
+import 'package:provider/provider.dart';
 
 class AddProduct extends StatefulWidget {
   AddProduct({super.key});
@@ -48,9 +50,7 @@ class _AddProductState extends State<AddProduct> {
               label: "Bacode/Code",
               controller: codecontrol,
               suffixicon: IconButton(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   icon: Icon(
                     Icons.image,
                     color: Colors.blue.shade400,
@@ -65,6 +65,7 @@ class _AddProductState extends State<AddProduct> {
               icon: Icons.onetwothree,
               label: "Jumlah",
               controller: jumlahcontrol,
+              keyboardtype: TextInputType.number,
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 10),
@@ -92,11 +93,13 @@ class _AddProductState extends State<AddProduct> {
               icon: Icons.money_rounded,
               label: "Harga Beli",
               controller: belicontrol,
+              keyboardtype: TextInputType.number,
             ),
             FieldData(
               icon: Icons.attach_money,
               label: "Harga Jual",
               controller: jualcontrol,
+              keyboardtype: TextInputType.number,
             ),
             Container(
               width: 230,
@@ -114,7 +117,9 @@ class _AddProductState extends State<AddProduct> {
                         Tanggal_Masuk:
                             DateFormat('dd/MM/yyyy').format(DateTime.now()),
                         Tanggal_Edit: "");
-                    createData(ProductData);
+                    // createData(ProductData);
+                    Provider.of<ProductsProvider>(context, listen: false)
+                        .addProduct(ProductData);
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
@@ -125,11 +130,4 @@ class _AddProductState extends State<AddProduct> {
       ),
     );
   }
-}
-
-Future createData(Products data) async {
-  final docData = FirebaseFirestore.instance.collection("Data_Products").doc();
-  data.Id = docData.id;
-  final json = data.toJson();
-  docData.set(json);
 }

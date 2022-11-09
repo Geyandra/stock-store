@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mini_project/Providers/orders_provider.dart';
+import 'package:mini_project/Providers/products_provider.dart';
 import 'package:mini_project/Widgets/botnav.dart';
 import 'package:mini_project/Views/create.dart';
 import 'package:mini_project/Views/details.dart';
@@ -9,6 +11,7 @@ import 'package:mini_project/Views/profiles.dart';
 import 'package:mini_project/Views/register.dart';
 import 'package:mini_project/Views/selected_data.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +19,17 @@ void main() async {
     SystemUiMode.immersiveSticky,
   );
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (_) => ProductsProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => OrdersProvider(),
+      ),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

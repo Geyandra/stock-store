@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Models/model_products.dart';
+import 'package:mini_project/Providers/products_provider.dart';
 import 'package:mini_project/Widgets/botnav.dart';
 import 'package:mini_project/Widgets/confirm_button.dart';
 import 'package:mini_project/Widgets/field_data.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class DetailsProduct extends StatefulWidget {
   final Products? data;
@@ -188,7 +190,7 @@ class _DetailsProductState extends State<DetailsProduct> {
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(DateTime.now()),
                                           );
-                                          updateData(dataedit);
+                                          Provider.of<ProductsProvider>(context, listen: false).editProduct(dataedit);
                                           Navigator.pop(context);
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -230,7 +232,7 @@ class _DetailsProductState extends State<DetailsProduct> {
                                     children: [
                                       ElevatedButton(
                                           onPressed: () {
-                                            deleteData(widget.data!.Id);
+                                            Provider.of<ProductsProvider>(context, listen: false).deleteProduct(widget.data!.Id);
                                             Navigator.of(context).pushNamed(
                                                 BottomNavBar.nameRoute);
                                           },
@@ -267,16 +269,4 @@ class _DetailsProductState extends State<DetailsProduct> {
 
 
 
-Future updateData(Products data) async {
-  final docData =
-      FirebaseFirestore.instance.collection("Data_Products").doc(data.Id);
-  data.Id = docData.id;
-  final json = data.toJson();
-  docData.update(json);
-}
 
-Future deleteData(String data) async {
-  final docData =
-      FirebaseFirestore.instance.collection("Data_Products").doc(data);
-  docData.delete();
-}

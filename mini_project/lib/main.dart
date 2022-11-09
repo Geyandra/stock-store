@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:mini_project/Providers/orders_provider.dart';
 import 'package:mini_project/Providers/products_provider.dart';
 import 'package:mini_project/Widgets/botnav.dart';
-import 'package:mini_project/Views/create.dart';
-import 'package:mini_project/Views/details.dart';
+import 'package:mini_project/Views/add_product.dart';
+import 'package:mini_project/Views/product_details.dart';
 import 'package:mini_project/Views/homepage.dart';
 import 'package:mini_project/Views/login.dart';
-import 'package:mini_project/Views/profiles.dart';
+import 'package:mini_project/Views/profile_user.dart';
 import 'package:mini_project/Views/register.dart';
-import 'package:mini_project/Views/selected_data.dart';
+import 'package:mini_project/Views/product_orders.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 

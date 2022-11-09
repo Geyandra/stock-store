@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -49,6 +48,13 @@ class _AddProductState extends State<AddProduct> {
               icon: Icons.qr_code_scanner,
               label: "Bacode/Code",
               controller: codecontrol,
+              validator: (value) {
+                      if (value!.isEmpty) {
+                        return ("please fill field");
+                      } else {
+                        return null;
+                      }
+                    },
               suffixicon: IconButton(
                   onPressed: () {},
                   icon: Icon(
@@ -60,12 +66,26 @@ class _AddProductState extends State<AddProduct> {
               icon: Icons.shopify,
               label: "Nama Barang",
               controller: namacontrol,
+              validator: (value) {
+                      if (value!.isEmpty) {
+                        return ("please fill field");
+                      } else {
+                        return null;
+                      }
+                    },
             ),
             FieldData(
               icon: Icons.onetwothree,
               label: "Jumlah",
               controller: jumlahcontrol,
               keyboardtype: TextInputType.number,
+              validator: (value) {
+                      if (value!.isEmpty) {
+                        return ("please fill field");
+                      } else {
+                        return null;
+                      }
+                    },
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 10),
@@ -94,12 +114,26 @@ class _AddProductState extends State<AddProduct> {
               label: "Harga Beli",
               controller: belicontrol,
               keyboardtype: TextInputType.number,
+              validator: (value) {
+                      if (value!.isEmpty) {
+                        return ("please fill field");
+                      } else {
+                        return null;
+                      }
+                    },
             ),
             FieldData(
               icon: Icons.attach_money,
               label: "Harga Jual",
               controller: jualcontrol,
               keyboardtype: TextInputType.number,
+              validator: (value) {
+                      if (value!.isEmpty) {
+                        return ("please fill field");
+                      } else {
+                        return null;
+                      }
+                    },
             ),
             Container(
               width: 230,

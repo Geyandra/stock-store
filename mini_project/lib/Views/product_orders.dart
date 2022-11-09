@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Models/model_pesanan.dart';
 import 'package:mini_project/Providers/orders_provider.dart';
-import 'package:mini_project/Views/details.dart';
 import 'package:mini_project/Widgets/confirm_button_dialog.dart';
 import 'package:mini_project/Widgets/field_order.dart';
 import 'package:mini_project/Widgets/note.dart';

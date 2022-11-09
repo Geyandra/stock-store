@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/Models/model_akun.dart';
 import 'package:mini_project/Views/register.dart';
-import 'package:mini_project/Widgets/field_data.dart';
 
 class Profiles extends StatelessWidget {
   Profiles({super.key});
@@ -12,28 +11,32 @@ class Profiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text("Profile"),
+          centerTitle: true,
+        ),
         body: StreamBuilder<List<Accounts>>(
-      stream: readData(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Text("Ada Kesalahan ${snapshot.hasError}");
-        } else if (snapshot.hasData) {
-          final datas = snapshot.data!;
-          return Column(
-            children: datas.map(buildData).toList(),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    ));
+          stream: readData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text("Ada Kesalahan ${snapshot.hasError}");
+            } else if (snapshot.hasData) {
+              final datas = snapshot.data!;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: datas.map(buildData).toList(),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ));
   }
 
   Widget buildData(Accounts data) => Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               margin: EdgeInsets.symmetric(vertical: 10),

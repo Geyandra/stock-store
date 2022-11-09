@@ -68,7 +68,7 @@ class Profiles extends StatelessWidget {
                     label: Text(data.Email),
                     labelStyle: TextStyle(color: Colors.blue.shade600),
                     prefixIcon: Icon(
-                      Icons.person,
+                      Icons.email,
                       color: Colors.blue,
                     ),
                     border: OutlineInputBorder(),
